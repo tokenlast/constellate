@@ -5,3 +5,6 @@ a { color: inherit; font-size: 16px; text-underline-offset: 3px; display: inline
 a:focus-visible { outline: 2px solid; outline-offset: 5px; }
 p { margin: 16px 0 0; font-size: 12px; }
 @media (max-width: 480px) { body { margin: 24px; } }
+
+.screenshots { display: grid; gap: 32px; max-width: 960px; margin-top: 40px; }
+.screenshots img { display: block; width: 100%; height: auto; }
