@@ -33,7 +33,8 @@ function param(id,type,rect,name,min,max,initial,enumeration){
 param('key','live.menu',[16,66,58,22],'key',0,11,0,['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B']);
 param('scale','live.menu',[84,66,165,22],'scale',0,C.scales.length-1,2,C.scales.map(s=>s[0]));
 param('flavor','live.menu',[16,115,132,22],'flavor',0,3,2,C.flavors);
-param('strength','live.dial',[171,81,55,50],'strength',0,100,50);
+// Keep the entire dial (including its name) clear of even the longest scale.
+param('strength','live.dial',[254,32,48,50],'strength',0,100,50);
 param('points','live.dial',[539,32,56,72],'points',3,10,5);
 param('time','live.dial',[631,32,70,72],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
 param('mode','live.menu',[631,115,80,15],'clock',0,1,0,['sync','free']);

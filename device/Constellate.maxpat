@@ -449,16 +449,16 @@
           "id": "strength",
           "maxclass": "live.dial",
           "patching_rect": [
-            171,
-            81,
-            55,
+            254,
+            32,
+            48,
             50
           ],
           "presentation": 1,
           "presentation_rect": [
-            171,
-            81,
-            55,
+            254,
+            32,
+            48,
             50
           ],
           "parameter_enable": 1,
