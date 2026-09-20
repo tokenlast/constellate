@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
 qa/
+dist/
 *.als
 *.als.asd

@@ -1,0 +1,28 @@
+@constellate_download host constellate.charlieyat.es
+handle @constellate_download {
+    route {
+        header {
+            -Server
+            Cache-Control "public, max-age=300, no-transform"
+            Content-Security-Policy "default-src 'none'; style-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests"
+            Cross-Origin-Opener-Policy "same-origin"
+            Cross-Origin-Resource-Policy "same-origin"
+            Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+            Referrer-Policy "no-referrer"
+            Strict-Transport-Security "max-age=86400"
+            X-Content-Type-Options "nosniff"
+            X-Frame-Options "DENY"
+        }
+        @constellate_write not method GET HEAD
+        respond @constellate_write "method not allowed\n" 405
+        @constellate_traversal expression `{http.request.uri}.matches('(?i)(?:\\.\\.|%(?:25)*(?:2e|2f|5c))')`
+        respond @constellate_traversal "not found\n" 404
+        @constellate_other not path / /index.html /style.css
+        respond @constellate_other "not found\n" 404
+        request_body {
+            max_size 1KB
+        }
+        root * /home/workspace/never-alone/10-sites/constellate.charlieyat.es
+        file_server
+    }
+}

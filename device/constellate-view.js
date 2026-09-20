@@ -26,10 +26,10 @@ function paint(){
     rgba(0);textAt('constellate',16,30,24);
     textAt('key',16,58,10);textAt('scale',84,58,10);textAt('flavor',16,107,10);
     centeredText('strength',144,107,10);centeredText(String(Math.round(s.strength*100)),144,156,12);
-    centeredText('points',567,52,10);centeredText(String(s.points),567,101,12);
-    centeredText('time',666,52,10);
+    centeredText('points',645,52,10);centeredText(String(s.points),645,101,12);
+    centeredText('time',744,52,10);
     textAt('randomize',735,127,12);textAt('new star',805,127,12);
-    centeredText(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],666,101,12);textAt('equal timing',539,127,12);
+    centeredText(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],744,101,12);textAt('equal timing',539,127,12);
     // A quiet audition target, useful with no MIDI keyboard connected.
     mgraphics.move_to(236,16);mgraphics.line_to(246,22);mgraphics.line_to(236,28);mgraphics.close_path();mgraphics.fill();
     // Clock guide only appears during direct manipulation.

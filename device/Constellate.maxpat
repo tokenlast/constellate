@@ -551,14 +551,14 @@
           "id": "points",
           "maxclass": "live.dial",
           "patching_rect": [
-            554,
+            632,
             60,
             26,
             26
           ],
           "presentation": 1,
           "presentation_rect": [
-            554,
+            632,
             60,
             26,
             26
@@ -653,14 +653,14 @@
           "id": "time",
           "maxclass": "live.dial",
           "patching_rect": [
-            653,
+            731,
             60,
             26,
             26
           ],
           "presentation": 1,
           "presentation_rect": [
-            653,
+            731,
             60,
             26,
             26

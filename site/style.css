@@ -1,0 +1,7 @@
+:root { color-scheme: light; font-family: Helvetica, Arial, sans-serif; color: #000; background: #fff; }
+body { margin: 32px; }
+h1 { margin: 0 0 20px; font-size: 24px; font-weight: 400; }
+a { color: inherit; font-size: 16px; text-underline-offset: 3px; display: inline-block; padding-block: 8px; }
+a:focus-visible { outline: 2px solid; outline-offset: 5px; }
+p { margin: 16px 0 0; font-size: 12px; }
+@media (max-width: 480px) { body { margin: 24px; } }

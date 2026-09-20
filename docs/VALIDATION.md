@@ -27,7 +27,7 @@ Checked the real `.amxd` in Ableton, including a fresh download of the published
 
 ## Limits
 
-- The v0.1.3 label placement and timing menu have not yet been inspected in the native host. Live remained in playback during this pass, and the standalone Max editor did not open the preview. Automated scheduling and package checks passed.
+- The final v0.1.4 layout and timing menu still need a native host visual check. Points and Time are centered together at x=694.5 over the bottom action row. The installed User Library copy and release archive match byte-for-byte; automated scheduling and package checks passed. Earlier native behavior checks are recorded above.
 - Timing is captured when a note is pressed. A tempo change does not retime notes already queued.
 - MIDI pitch has no independent note identity: simultaneous repetitions of the same pitch on the same channel retrigger the voice. Different pitches can overlap freely.
 - Musical output is constrained to the chosen scale, including the dissonant flavor.

@@ -35,8 +35,8 @@ param('scale','live.menu',[84,66,165,22],'scale',0,C.scales.length-1,2,C.scales.
 param('flavor','live.menu',[16,115,90,22],'flavor',0,3,2,C.flavors);
 // Group flavor and its strength below the scale without overlapping either row.
 param('strength','live.dial',[131,115,26,26],'strength',0,100,50);
-param('points','live.dial',[554,60,26,26],'points',3,10,5);
-param('time','live.dial',[653,60,26,26],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
+param('points','live.dial',[632,60,26,26],'points',3,10,5);
+param('time','live.dial',[731,60,26,26],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
 param('mode','live.menu',[618,115,44,15],'clock',0,1,0,['sync','free']);
 param('timing','live.menu',[668,115,58,15],'timing',0,2,0,C.timings);
 obj('sync-only','== 0',170,640);obj('timing-active','prepend active',170,670);wire('mode',0,'sync-only');wire('sync-only',0,'timing-active');wire('timing-active',0,'timing');
