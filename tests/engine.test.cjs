@@ -9,3 +9,10 @@ test('panic clears native queues and resets sustain; inactive device cannot sche
 test('transport stop clears tails, while first stopped-state observation is harmless',()=>{const r=runtime();r.c.host('is_playing',0);assert.equal(r.outputs.length,0);r.c.host('is_playing',1);r.c.host('is_playing',0);assert.ok(r.outputs.some(a=>a[0]===3));});
 test('density is bounded without stealing playing tails',()=>{const r=runtime();for(let i=0;i<1000;i++)r.bytes([144,60,100]);assert.equal(r.scheduled().length,64*5);});
 test('configuration sanitizes parameters and rejects invalid geometry',()=>{const r=runtime();r.c.config('points',10);assert.equal(r.c.geometry.length,10);r.c.shape('not json');r.c.config('strength',0);assert.equal(r.c.settings.strength,0);r.c.trigger(60,100,1);assert.equal(r.scheduled().length,10);});
+test('timing menu config reaches scheduling and affects only new synced passes',()=>{
+ const r=runtime();r.c.config('timing',1);r.bytes([144,60,100]);
+ assert.ok(Math.abs(r.scheduled()[4][1][5]-2000*2/3*.8)<1e-7);
+ r.c.config('timing',2);r.bytes([144,64,100]);assert.equal(r.scheduled()[9][1][5],2400);
+ assert.ok(Math.abs(r.scheduled()[4][1][5]-2000*2/3*.8)<1e-7);
+ r.c.config('mode',1);r.bytes([144,67,100]);assert.equal(r.scheduled()[14][1][5],800);
+});

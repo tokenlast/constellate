@@ -19,6 +19,7 @@ For a source checkout, keep every file in `device/` together and load `device/Co
 - **flavor:** major, minor, consonant, or dissonant. These bias intervals relative to the note you played. They never introduce a note outside the selected scale.
 - **strength:** at zero, every available scale pitch is equally likely. Turn it up for more of the chosen flavor. Adjacent notes never repeat the same MIDI pitch.
 - **time / clock:** sync runs from 1/16 of a bar to 8 bars, using Live's tempo and time signature. Free runs from 125 ms to 8 seconds. Each press captures the current timing, so changing tempo or controls affects new passes.
+- **timing:** beside sync, choose straight, triplet (two-thirds of the selected duration), or dotted (one-and-a-half times the duration). This scales the entire star's rhythm. Free mode keeps its displayed duration and disables this menu.
 - **drag a corner:** move clockwise or counterclockwise to change when it plays; move inward or outward to change the drawing. Corners keep their order. The first point anchors time zero.
 - **new star:** a new shape based on Charlie's original website drawings, with evenly spaced timing.
 - **randomize:** uneven timing and a different arrangement of corners.

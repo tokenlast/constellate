@@ -22,6 +22,21 @@ test('flavor weights produce meaningfully different distributions',()=>{
 test('sync respects tempo and time signature; free time is independent',()=>{
  const s=C.defaults();assert.equal(C.duration(s,120,3,4),1500);assert.equal(C.duration(s,120,6,8),1500);assert.equal(C.duration(s,60,4,4),4000);assert.equal(C.duration({...s,mode:1},240,7,8),1000);
 });
+test('triplet and dotted timing scale irregular rhythms while free time and old presets stay unchanged',()=>{
+ const a=C.randomize(C.star(7,stars[0],random()),random(9));
+ for(let time=0;time<8;time++)for(const [tempo,num,den] of [[120,4,4],[87,7,8],[160,3,4]]){
+  const base={...C.defaults(),points:7,time};
+  const straight=C.sequence(60,100,1,base,a,tempo,num,den,random());
+  for(const [timing,factor] of [[1,2/3],[2,1.5]]){
+   const q=C.sequence(60,100,1,{...base,timing},a,tempo,num,den,random());
+   assert.ok(Math.abs(q.duration-straight.duration*factor)<1e-7);
+   q.events.forEach((e,i)=>{assert.equal(e.pitch,straight.events[i].pitch);assert.ok(Math.abs(e.delay-straight.events[i].delay*factor)<1e-7);assert.ok(e.gate>=25&&e.gate<=1500);});
+   assert.equal(C.duration({...base,mode:1,timing},tempo,num,den),C.times[time]);
+  }
+  delete base.timing;assert.equal(C.validSettings(base).timing,0);assert.equal(C.duration(base,tempo,num,den),straight.duration);
+ }
+ assert.equal(C.validSettings({timing:999}).timing,2);assert.equal(C.validSettings({timing:NaN}).timing,0);
+});
 test('dragging never reverses note order, and the first corner stays anchored',()=>{
  const a=C.star(10,stars[0],random());C.movePoint(a,0,.5,2);assert.equal(a[0].phase,0);assert.equal(a[0].radius,1);
  for(let i=1;i<10;i++){C.movePoint(a,i,-10,.1);C.movePoint(a,i,10,.9);}assert.ok(C.sanitizeStar(a,10));

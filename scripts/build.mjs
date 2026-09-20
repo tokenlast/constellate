@@ -4,7 +4,7 @@ import vm from 'node:vm';
 const root=path.resolve(import.meta.dirname,'..'),device=path.join(root,'device');
 const coreContext={};vm.createContext(coreContext);vm.runInContext(fs.readFileSync(path.join(device,'constellate-core.js'),'utf8'),coreContext);
 const C=coreContext.Constellate;
-const menuOptions={key:['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'],scale:C.scales.map(s=>s[0]),flavor:C.flavors,mode:['sync','free']};
+const menuOptions={key:['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'],scale:C.scales.map(s=>s[0]),flavor:C.flavors,mode:['sync','free'],timing:C.timings};
 fs.writeFileSync(path.join(device,'constellate-dropdown.js'),fs.readFileSync(path.join(root,'scripts/menu-painter.js'),'utf8').replace('__MENU_OPTIONS__',JSON.stringify(menuOptions)));
 const traces=JSON.parse(fs.readFileSync(path.join(root,'assets/charlie-stars.json')));
 fs.writeFileSync(path.join(device,'constellate-stars.js'),'// Charlie Yates: original website star traces.\nvar CHARLIE_STARS = '+JSON.stringify(traces)+';\n');
@@ -27,17 +27,19 @@ function param(id,type,rect,name,min,max,initial,enumeration){
  const props={presentation:1,presentation_rect:rect,parameter_enable:1,varname:id,fontname:'Helvetica',fontsize:12,saved_attribute_attributes:{valueof:v},textcolor:[0,0,0,1],active:1};
  if(type==='live.menu')Object.assign(props,{jspainterfile:'constellate-dropdown.js',bgcolor:[1,1,1,0],bgcolor2:[1,1,1,0],bordercolor:[1,1,1,0],tricolor:[0,0,0,1],focusbordercolor:[.2,.2,.2,1],activetextcolor:[0,0,0,1]});
  else Object.assign(props,{appearance:0,activefgdialcolor:[0,0,0,1],activeneedlecolor:[0,0,0,1],activedialcolor:[.82,.82,.82,1],fgdialcolor:[0,0,0,1],needlecolor:[0,0,0,1],dialcolor:[.82,.82,.82,1],tribordercolor:[0,0,0,1]});
- if(id==='time')props.shownumber=0;
+ if(type==='live.dial')Object.assign(props,{showname:0,shownumber:0});
  box(id,type,rect,props);parameters[id]=[name,name,0];obj('pre-'+id,'prepend config '+id,30,290+Object.keys(parameters).length*32);wire(id,0,'pre-'+id);wire('pre-'+id,0,'engine');
 }
 param('key','live.menu',[16,66,58,22],'key',0,11,0,['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B']);
 param('scale','live.menu',[84,66,165,22],'scale',0,C.scales.length-1,2,C.scales.map(s=>s[0]));
 param('flavor','live.menu',[16,115,90,22],'flavor',0,3,2,C.flavors);
 // Group flavor and its strength below the scale without overlapping either row.
-param('strength','live.dial',[116,99,55,50],'strength',0,100,50);
-param('points','live.dial',[539,32,56,72],'points',3,10,5);
-param('time','live.dial',[631,32,70,72],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
-param('mode','live.menu',[631,115,80,15],'clock',0,1,0,['sync','free']);
+param('strength','live.dial',[131,115,26,26],'strength',0,100,50);
+param('points','live.dial',[554,60,26,26],'points',3,10,5);
+param('time','live.dial',[653,60,26,26],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
+param('mode','live.menu',[618,115,44,15],'clock',0,1,0,['sync','free']);
+param('timing','live.menu',[668,115,58,15],'timing',0,2,0,C.timings);
+obj('sync-only','== 0',170,640);obj('timing-active','prepend active',170,670);wire('mode',0,'sync-only');wire('sync-only',0,'timing-active');wire('timing-active',0,'timing');
 obj('engine','js constellate-engine.js',320,240,{numinlets:1,numoutlets:4});
 obj('midiin','midiin',30,210);wire('midiin',0,'engine');obj('midiout','midiout',950,610);wire('engine',1,'midiout');wire('engine',2,'surface');wire('surface',0,'engine');
 obj('thisdevice','live.thisdevice',580,210);obj('ready','deferlow',580,240);obj('readymsg','prepend ready',580,270);wire('thisdevice',0,'ready');wire('ready',0,'readymsg');wire('readymsg',0,'engine');obj('active','prepend active',740,240);wire('thisdevice',1,'active');wire('active',0,'engine');
@@ -67,7 +69,7 @@ for(let ch=1;ch<=16;ch++){
 // Max serializes boxes front-to-back. Keep the interactive canvas behind controls
 // without placing it on the background layer, which gets mouse-locked by Freeze.
 boxes.push(boxes.shift());
-const p=patch(boxes,lines,{devicewidth:860,bgcolor:[1,1,1,1],editing_bgcolor:[.95,.95,.95,1],description:'Constellate — one note, one hand-drawn constellation.',digest:'A scale-aware star arpeggiator.',tags:'MIDI arpeggiator star scale',parameters:{...parameters,parameterbanks:{0:{index:0,name:'Constellate',parameters:['key','scale','flavor','strength','points','time','clock','-']}},inherited_shortname:1},dependency_cache:['constellate-core.js','constellate-stars.js','constellate-engine.js','constellate-view.js','constellate-dropdown.js','constellate-sky.js','sky.gif',...skyFrames.map(f=>f.name)].map(name=>({name,bootpath:'.',type:name.endsWith('.js')?'TEXT':name.endsWith('.png')?'PNG':'GIFf',implicit:1}))});
+const p=patch(boxes,lines,{devicewidth:860,bgcolor:[1,1,1,1],editing_bgcolor:[.95,.95,.95,1],description:'Constellate — one note, one hand-drawn constellation.',digest:'A scale-aware star arpeggiator.',tags:'MIDI arpeggiator star scale',parameters:{...parameters,parameterbanks:{0:{index:0,name:'Constellate',parameters:['key','scale','flavor','strength','points','time','clock','timing']}},inherited_shortname:1},dependency_cache:['constellate-core.js','constellate-stars.js','constellate-engine.js','constellate-view.js','constellate-dropdown.js','constellate-sky.js','sky.gif',...skyFrames.map(f=>f.name)].map(name=>({name,bootpath:'.',type:name.endsWith('.js')?'TEXT':name.endsWith('.png')?'PNG':'GIFf',implicit:1}))});
 const json=JSON.stringify({patcher:p},null,2)+'\n';
 fs.writeFileSync(path.join(device,'Constellate.maxpat'),json);
 // AMXD container: ampf type, metadata, UTF-8 patch chunk including its terminating NUL.

@@ -449,17 +449,17 @@
           "id": "strength",
           "maxclass": "live.dial",
           "patching_rect": [
-            116,
-            99,
-            55,
-            50
+            131,
+            115,
+            26,
+            26
           ],
           "presentation": 1,
           "presentation_rect": [
-            116,
-            99,
-            55,
-            50
+            131,
+            115,
+            26,
+            26
           ],
           "parameter_enable": 1,
           "varname": "strength",
@@ -528,7 +528,9 @@
             0,
             0,
             1
-          ]
+          ],
+          "showname": 0,
+          "shownumber": 0
         }
       },
       {
@@ -549,17 +551,17 @@
           "id": "points",
           "maxclass": "live.dial",
           "patching_rect": [
-            539,
-            32,
-            56,
-            72
+            554,
+            60,
+            26,
+            26
           ],
           "presentation": 1,
           "presentation_rect": [
-            539,
-            32,
-            56,
-            72
+            554,
+            60,
+            26,
+            26
           ],
           "parameter_enable": 1,
           "varname": "points",
@@ -628,7 +630,9 @@
             0,
             0,
             1
-          ]
+          ],
+          "showname": 0,
+          "shownumber": 0
         }
       },
       {
@@ -649,17 +653,17 @@
           "id": "time",
           "maxclass": "live.dial",
           "patching_rect": [
-            631,
-            32,
-            70,
-            72
+            653,
+            60,
+            26,
+            26
           ],
           "presentation": 1,
           "presentation_rect": [
-            631,
-            32,
-            70,
-            72
+            653,
+            60,
+            26,
+            26
           ],
           "parameter_enable": 1,
           "varname": "time",
@@ -739,6 +743,7 @@
             0,
             1
           ],
+          "showname": 0,
           "shownumber": 0
         }
       },
@@ -760,16 +765,16 @@
           "id": "mode",
           "maxclass": "live.menu",
           "patching_rect": [
-            631,
+            618,
             115,
-            80,
+            44,
             15
           ],
           "presentation": 1,
           "presentation_rect": [
-            631,
+            618,
             115,
-            80,
+            44,
             15
           ],
           "parameter_enable": 1,
@@ -851,6 +856,131 @@
             22
           ],
           "text": "prepend config mode"
+        }
+      },
+      {
+        "box": {
+          "id": "timing",
+          "maxclass": "live.menu",
+          "patching_rect": [
+            668,
+            115,
+            58,
+            15
+          ],
+          "presentation": 1,
+          "presentation_rect": [
+            668,
+            115,
+            58,
+            15
+          ],
+          "parameter_enable": 1,
+          "varname": "timing",
+          "fontname": "Helvetica",
+          "fontsize": 12,
+          "saved_attribute_attributes": {
+            "valueof": {
+              "parameter_longname": "timing",
+              "parameter_shortname": "timing",
+              "parameter_type": 2,
+              "parameter_mmin": 0,
+              "parameter_mmax": 2,
+              "parameter_initial": [
+                0
+              ],
+              "parameter_initial_enable": 1,
+              "parameter_unitstyle": 9,
+              "parameter_enum": [
+                "straight",
+                "triplet",
+                "dotted"
+              ]
+            }
+          },
+          "textcolor": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "active": 1,
+          "jspainterfile": "constellate-dropdown.js",
+          "bgcolor": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "bgcolor2": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "bordercolor": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "tricolor": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "focusbordercolor": [
+            0.2,
+            0.2,
+            0.2,
+            1
+          ],
+          "activetextcolor": [
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pre-timing",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            546,
+            126,
+            22
+          ],
+          "text": "prepend config timing"
+        }
+      },
+      {
+        "box": {
+          "id": "sync-only",
+          "maxclass": "newobj",
+          "patching_rect": [
+            170,
+            640,
+            100,
+            22
+          ],
+          "text": "== 0"
+        }
+      },
+      {
+        "box": {
+          "id": "timing-active",
+          "maxclass": "newobj",
+          "patching_rect": [
+            170,
+            670,
+            100,
+            22
+          ],
+          "text": "prepend active"
         }
       },
       {
@@ -7629,6 +7759,66 @@
       {
         "patchline": {
           "source": [
+            "timing",
+            0
+          ],
+          "destination": [
+            "pre-timing",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pre-timing",
+            0
+          ],
+          "destination": [
+            "engine",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "mode",
+            0
+          ],
+          "destination": [
+            "sync-only",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "sync-only",
+            0
+          ],
+          "destination": [
+            "timing-active",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "timing-active",
+            0
+          ],
+          "destination": [
+            "timing",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
             "midiin",
             0
           ],
@@ -8771,6 +8961,11 @@
         "clock",
         0
       ],
+      "timing": [
+        "timing",
+        "timing",
+        0
+      ],
       "surface": [
         "star shape",
         "star shape",
@@ -8788,7 +8983,7 @@
             "points",
             "time",
             "clock",
-            "-"
+            "timing"
           ]
         }
       },

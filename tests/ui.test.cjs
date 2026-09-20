@@ -16,7 +16,7 @@ test('canvas actions and point dragging change geometry and emit messages',()=>{
 });
 test('dropdown painter draws selected text at the left edge and an adjacent arrow',()=>{
  const source=fs.readFileSync(path.join(__dirname,'../device/constellate-dropdown.js'),'utf8');
- for(const [name,value,label] of [['key',0,'C'],['scale',2,'major pentatonic'],['flavor',2,'consonant'],['mode',0,'sync']]){
+ for(const [name,value,label] of [['key',0,'C'],['scale',2,'major pentatonic'],['flavor',2,'consonant'],['mode',0,'sync'],['timing',0,'straight'],['timing',1,'triplet'],['timing',2,'dotted']]){
   const positions=[],labels=[];const context={box:{getattr(){return name;},getvalueof(){return [value];}},mgraphics:{select_font_face(){},set_font_size(){},set_source_rgba(){},move_to(x,y){positions.push([x,y]);},show_text(t){labels.push(t);},text_measure(t){return [t.length*6,12];},line_to(){},close_path(){},fill(){}}};
   vm.createContext(context);vm.runInContext(source,context);context.paint();assert.equal(labels[0],label);assert.deepEqual(positions[0],[0,12]);assert.deepEqual(positions[1],[label.length*6+6,6]);
  }

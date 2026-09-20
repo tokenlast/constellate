@@ -18,14 +18,18 @@ var animation=new Task(function(){var now=Date.now();markers=markers.filter(func
 animation.interval=33;
 function rgba(v,alpha){mgraphics.set_source_rgba(v,v,v,alpha===undefined?1:alpha);}
 function textAt(t,x,y,size){mgraphics.select_font_face('Helvetica');mgraphics.set_font_size(size);mgraphics.move_to(x,y);mgraphics.show_text(t);}
+function centeredText(t,x,y,size){mgraphics.select_font_face('Helvetica');mgraphics.set_font_size(size);textAt(t,x-mgraphics.text_measure(t)[0]/2,y,size);}
 function point(i){var p=a[i],theta=p.phase*Math.PI*2-Math.PI/2;return [cx+Math.cos(theta)*r*p.radius,cy+Math.sin(theta)*r*p.radius];}
 function paint(){
     rgba(1);mgraphics.rectangle(0,0,860,169);mgraphics.fill();
     mgraphics.save();mgraphics.translate(0,-238);mgraphics.scale(2.6875,2.6875);mgraphics.image_surface_draw(sky[skyFrame]);mgraphics.restore();rgba(1,.92);mgraphics.rectangle(0,0,860,169);mgraphics.fill();
     rgba(0);textAt('constellate',16,30,24);
     textAt('key',16,58,10);textAt('scale',84,58,10);textAt('flavor',16,107,10);
+    centeredText('strength',144,107,10);centeredText(String(Math.round(s.strength*100)),144,156,12);
+    centeredText('points',567,52,10);centeredText(String(s.points),567,101,12);
+    centeredText('time',666,52,10);
     textAt('randomize',735,127,12);textAt('new star',805,127,12);
-    textAt(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],641,76,12);textAt('equal timing',539,127,12);
+    centeredText(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],666,101,12);textAt('equal timing',539,127,12);
     // A quiet audition target, useful with no MIDI keyboard connected.
     mgraphics.move_to(236,16);mgraphics.line_to(246,22);mgraphics.line_to(236,28);mgraphics.close_path();mgraphics.fill();
     // Clock guide only appears during direct manipulation.
@@ -71,7 +75,7 @@ function pulse(index,pitch,gate){
 function onclick(x,y){
     if(x>=800&&x<=860&&y>=110&&y<=143){newstar();return;}
     if(x>=728&&x<800&&y>=110&&y<=143){randomize();return;}
-    if(x>=533&&x<=620&&y>=110&&y<=143){equal();return;}
+    if(x>=533&&x<=612&&y>=110&&y<=143){equal();return;}
     if(x>=228&&x<=255&&y<=38){outlet(0,'audition');return;}
     grabbed=-1;var best=144;
     for(var i=0;i<a.length;i++){var p=point(i),d=Math.pow(p[0]-x,2)+Math.pow(p[1]-y,2);if(d<best){best=d;grabbed=i;}}

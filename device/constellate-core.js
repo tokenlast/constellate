@@ -15,6 +15,8 @@ var Constellate = (function () {
         ['blues', [0,3,5,6,7,10]], ['chromatic', [0,1,2,3,4,5,6,7,8,9,10,11]]
     ];
     var flavors = ['major', 'minor', 'consonant', 'dissonant'];
+    var timings = ['straight', 'triplet', 'dotted'];
+    var timingFactors = [1,2/3,1.5];
     var bars = [0.0625,0.125,0.25,0.5,1,2,4,8];
     var times = [125,250,500,750,1000,2000,4000,8000];
     var weights = [
@@ -26,8 +28,8 @@ var Constellate = (function () {
     function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
     function mod(v,n){return ((v%n)+n)%n;}
     function round(v,lo,hi){return clamp(Math.round(Number(v)||0),lo,hi);}
-    function defaults(){return {points:5,key:0,scale:2,flavor:2,strength:0.5,time:4,mode:0};}
-    function validSettings(s){var d=defaults();for(var k in d)if(typeof s[k]==='number'&&isFinite(s[k]))d[k]=s[k];d.points=round(d.points,3,10);d.key=round(d.key,0,11);d.scale=round(d.scale,0,scales.length-1);d.flavor=round(d.flavor,0,3);d.strength=clamp(d.strength,0,1);d.time=round(d.time,0,7);d.mode=round(d.mode,0,1);return d;}
+    function defaults(){return {points:5,key:0,scale:2,flavor:2,strength:0.5,time:4,mode:0,timing:0};}
+    function validSettings(s){var d=defaults();for(var k in d)if(typeof s[k]==='number'&&isFinite(s[k]))d[k]=s[k];d.points=round(d.points,3,10);d.key=round(d.key,0,11);d.scale=round(d.scale,0,scales.length-1);d.flavor=round(d.flavor,0,3);d.strength=clamp(d.strength,0,1);d.time=round(d.time,0,7);d.mode=round(d.mode,0,1);d.timing=round(d.timing,0,2);return d;}
     function contains(a,n){return a.indexOf(n)!==-1;}
     function inScale(p,s){return contains(scales[s.scale][1],mod(p-s.key,12));}
     function quantize(p,s){p=round(p,0,127);for(var d=0;d<=12;d++){if(p-d>=0&&inScale(p-d,s))return p-d;if(p+d<=127&&inScale(p+d,s))return p+d;}return p;}
@@ -75,7 +77,7 @@ var Constellate = (function () {
         for(i=0;i<a.length;i++){a[i].phase=i*.02+(1-a.length*.02)*c/total;a[i].radius=.55+rng()*.45;c+=gaps[i];}return a;
     }
     function equal(a){for(var i=0;i<a.length;i++)a[i].phase=i/a.length;return a;}
-    function duration(s,tempo,num,den){return s.mode?times[s.time]:60000/clamp(tempo||120,20,999)*((num||4)*4/(den||4))*bars[s.time];}
+    function duration(s,tempo,num,den){return s.mode?times[s.time]:60000/clamp(tempo||120,20,999)*((num||4)*4/(den||4))*bars[s.time]*timingFactors[round(s.timing,0,2)];}
     function sequence(pitch,velocity,channel,s,a,tempo,num,den,rng){
         s=validSettings(s);var root=quantize(pitch,s),last=root,out=[],ms=duration(s,tempo,num,den);
         for(var i=0;i<a.length;i++){
@@ -85,6 +87,6 @@ var Constellate = (function () {
         }
         return {events:out,duration:ms};
     }
-    return {scales:scales,flavors:flavors,bars:bars,times:times,defaults:defaults,validSettings:validSettings,inScale:inScale,quantize:quantize,choose:choose,star:star,sanitizeStar:sanitizeStar,movePoint:movePoint,randomize:randomize,equal:equal,duration:duration,sequence:sequence,clamp:clamp};
+    return {scales:scales,flavors:flavors,timings:timings,bars:bars,times:times,defaults:defaults,validSettings:validSettings,inScale:inScale,quantize:quantize,choose:choose,star:star,sanitizeStar:sanitizeStar,movePoint:movePoint,randomize:randomize,equal:equal,duration:duration,sequence:sequence,clamp:clamp};
 }());
 if(typeof module!=='undefined')module.exports=Constellate;

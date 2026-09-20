@@ -2,7 +2,9 @@
 
 ## Automated
 
-`npm run check` rebuilds both devices and runs 25 checks covering saved-state restore ordering as well as every scale, key, flavor, and MIDI range edge, including non-repeating adjacent pitches; zero-strength equivalence; flavor distribution; 3–10-point rhythms; time signatures; drag bounds; randomized geometry; MIDI running status; release-independent playback; separate channels; non-note MIDI passthrough; panic/bypass/transport-stop cleanup; and the concurrent-pass limit. UI checks cover point dragging, dropdown alignment, and the GIF animation lifecycle.
+`npm run check` rebuilds both devices and runs 27 checks covering saved-state restore ordering as well as every scale, key, flavor, and MIDI range edge, including non-repeating adjacent pitches; zero-strength equivalence; flavor distribution; 3–10-point rhythms; time signatures; straight/triplet/dotted timing; drag bounds; randomized geometry; MIDI running status; release-independent playback; separate channels; non-note MIDI passthrough; panic/bypass/transport-stop cleanup; and the concurrent-pass limit. UI checks cover point dragging, dropdown alignment, and the GIF animation lifecycle.
+
+Timing modifiers are checked across all eight durations, multiple tempos and time signatures, and irregular star geometry. Tests verify pitch preservation, bounded note lengths, unchanged free timing, old-preset defaults, and modifier changes reaching the scheduler without retiming earlier passes.
 
 The portable release is parsed back and every embedded file is compared byte-for-byte with current source. The collective writer was also checked against a reference device frozen by Max 9.0.7: decoding and re-encoding reproduced the entire native archive byte-for-byte.
 
@@ -25,6 +27,7 @@ Checked the real `.amxd` in Ableton, including a fresh download of the published
 
 ## Limits
 
+- The v0.1.3 label placement and timing menu have not yet been inspected in the native host. Live remained in playback during this pass, and the standalone Max editor did not open the preview. Automated scheduling and package checks passed.
 - Timing is captured when a note is pressed. A tempo change does not retime notes already queued.
 - MIDI pitch has no independent note identity: simultaneous repetitions of the same pitch on the same channel retrigger the voice. Different pitches can overlap freely.
 - Musical output is constrained to the chosen scale, including the dissonant flavor.
