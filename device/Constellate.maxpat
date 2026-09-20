@@ -351,14 +351,14 @@
           "patching_rect": [
             16,
             115,
-            132,
+            90,
             22
           ],
           "presentation": 1,
           "presentation_rect": [
             16,
             115,
-            132,
+            90,
             22
           ],
           "parameter_enable": 1,
@@ -449,16 +449,16 @@
           "id": "strength",
           "maxclass": "live.dial",
           "patching_rect": [
-            254,
-            32,
-            48,
+            116,
+            99,
+            55,
             50
           ],
           "presentation": 1,
           "presentation_rect": [
-            254,
-            32,
-            48,
+            116,
+            99,
+            55,
             50
           ],
           "parameter_enable": 1,

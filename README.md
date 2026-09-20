@@ -24,9 +24,8 @@ For a source checkout, keep every file in `device/` together and load `device/Co
 - **randomize:** uneven timing and a different arrangement of corners.
 - **equal timing:** evenly space the rhythm while preserving the point lengths.
 - **small play triangle:** audition the current key without a keyboard.
-- **stop:** cancel scheduled notes and release active notes. Transport stop and device bypass also clear tails.
 
-The final division returns to the first point at the end of the selected time, without adding an extra note or looping. Note lengths follow the next gap, with a short separation. Incoming velocity and MIDI channel are retained. Up to 64 passes can be in flight; further triggers are ignored until a slot clears. Repeated pitches retrigger cleanly on each channel.
+The final division returns to the first point at the end of the selected time, without adding an extra note or looping. Note lengths follow the next gap, with a short separation. Incoming velocity and MIDI channel are retained. Up to 64 passes can be in flight; further triggers are ignored until a slot clears. Repeated pitches retrigger cleanly on each channel. Stopping Live's transport or bypassing the device clears active notes and queued tails.
 
 The scale list includes major/minor pentatonic, the seven diatonic modes, harmonic and melodic minor, whole tone, both diminished scales, hirajoshi, in sen, Hungarian minor, double harmonic, enigmatic, Prometheus, blues, and chromatic.
 

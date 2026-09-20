@@ -24,8 +24,8 @@ function paint(){
     mgraphics.save();mgraphics.translate(0,-238);mgraphics.scale(2.6875,2.6875);mgraphics.image_surface_draw(sky[skyFrame]);mgraphics.restore();rgba(1,.92);mgraphics.rectangle(0,0,860,169);mgraphics.fill();
     rgba(0);textAt('constellate',16,30,24);
     textAt('key',16,58,10);textAt('scale',84,58,10);textAt('flavor',16,107,10);
-    textAt('new star',735,73,24);textAt('randomize',735,127,12);
-    textAt(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],641,76,12);textAt('equal timing',539,127,12);textAt('stop',817,127,12);
+    textAt('randomize',735,127,12);textAt('new star',805,127,12);
+    textAt(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],641,76,12);textAt('equal timing',539,127,12);
     // A quiet audition target, useful with no MIDI keyboard connected.
     mgraphics.move_to(236,16);mgraphics.line_to(246,22);mgraphics.line_to(236,28);mgraphics.close_path();mgraphics.fill();
     // Clock guide only appears during direct manipulation.
@@ -69,10 +69,9 @@ function pulse(index,pitch,gate){
     animation.repeat();mgraphics.redraw();
 }
 function onclick(x,y){
-    if(x>=728&&y>=37&&y<=88){newstar();return;}
-    if(x>=728&&x<802&&y>=110&&y<=143){randomize();return;}
+    if(x>=800&&x<=860&&y>=110&&y<=143){newstar();return;}
+    if(x>=728&&x<800&&y>=110&&y<=143){randomize();return;}
     if(x>=533&&x<=620&&y>=110&&y<=143){equal();return;}
-    if(x>=804&&y>=110&&y<=143){outlet(0,'panic');return;}
     if(x>=228&&x<=255&&y<=38){outlet(0,'audition');return;}
     grabbed=-1;var best=144;
     for(var i=0;i<a.length;i++){var p=point(i),d=Math.pow(p[0]-x,2)+Math.pow(p[1]-y,2);if(d<best){best=d;grabbed=i;}}

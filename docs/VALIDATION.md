@@ -21,6 +21,7 @@ Checked the real `.amxd` in Ableton, including a fresh download of the published
 - Star geometry uses a stored-only `jsui` blob parameter. Automated checks cover both possible parameter/geometry restore orders.
 - v0.1.1 was loaded and visually checked with the longest scale name. Strength now occupies a separate column, with its dial aligned vertically to points and time, clear of the scale and flavor labels.
 - A separate QA Live Set was saved, closed by opening a new set, and reopened. The corrected layout and the chosen key, scale, flavor, clock mode, time, strength, and point count restored.
+- The v0.1.2 layout was inspected in Live: strength sits beside flavor, and a smaller new-star action replaces Stop beside randomize. Reloading preserved the existing seven-point drawing and parameter settings. The final six-pixel downward alignment of strength was built and checked automatically; it was not reloaded while the user was playing the session.
 
 ## Limits
 
