@@ -60,7 +60,7 @@ test('lock and direction affect pitches only; geometry, velocity, gate, tempo an
 test('all pitches can be reached through octave pages; black and white piano geometry is consistent',()=>{
  for(let pitch=0;pitch<128;pitch++){
   const k=C.pianoKey(pitch,Math.floor(pitch/12));assert.ok(k);
-  assert.equal(k.black,[1,3,6,8,10].includes(pitch%12));assert.ok(k.rect[0]>=270&&k.rect[0]+k.rect[2]<=585);
+  assert.equal(k.black,[1,3,6,8,10].includes(pitch%12));assert.ok(k.rect[0]>=230&&k.rect[0]+k.rect[2]<=545);
  }
  assert.equal(C.pianoKey(47,4),null);assert.equal(C.pianoKey(73,4),null);assert.ok(C.pianoKey(72,4));
  assert.equal(C.noteName(60),'C3');assert.equal(C.noteName(0),'C-2');assert.equal(C.noteName(127),'G8');

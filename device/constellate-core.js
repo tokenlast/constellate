@@ -42,7 +42,7 @@ var Constellate = (function () {
         if(offset<0||offset>24||p>127)return null;
         var pc=mod(offset,12),black=[1,3,6,8,10].indexOf(pc)>=0;
         var whites=[0,0,1,1,2,3,3,4,4,5,5,6],col=Math.floor(offset/12)*7+whites[pc];
-        return {black:black,rect:[270+col*21+(black?14:0),111,black?13:21,black?27:45]};
+        return {black:black,rect:[230+col*21+(black?14:0),111,black?13:21,black?27:45]};
     }
     function eligible(root,s){
         if(s.noteLock)return s.notes.slice();

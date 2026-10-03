@@ -47,7 +47,7 @@ test('native saved note parameters restore independently of lock, direction and 
   const notes=()=>{r.c.selectnote(0,1);r.c.selectnote(73,1);r.c.selectnote(127,1);};
   if(order){params();notes();}else{notes();params();}
   r.c.trigger(60,99,1);assert.deepEqual(r.scheduled().map(o=>o[1][1]),[127,73,0,127,73]);
-  assert.deepEqual(boxes[127].messages.find(m=>m[1]==='presentation_rect'),['sendbox','presentation_rect',354,111,21,45]);
+  assert.deepEqual(boxes[127].messages.find(m=>m[1]==='presentation_rect'),['sendbox','presentation_rect',314,111,21,45]);
   assert.ok(boxes[0].messages.some(m=>m[1]==='hidden'&&m[2]===1));
   r.c.clearnotes();assert.equal(r.c.settings.notes.length,0);assert.ok(boxes.every(b=>b.messages.some(m=>m[0]==='set'&&m[1]===0)));
  }

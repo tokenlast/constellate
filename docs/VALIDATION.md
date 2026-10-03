@@ -44,3 +44,9 @@ An isolated Max 9 (bundled with Live) harness ran the actual native pipe/makenot
 The final portable archive was loaded in Ableton Live. A separate native QA set was saved, closed by opening a blank set, and reopened: C3, E3, G3 and C4 restored, together with note lock on, Up direction and the keyboard range. The saved set contains all 128 independent note parameters; Clear returns to its neutral value and does not clear the set during restore.
 
 The archive uses the existing portable AMXD collective workflow. It contains Max patch/JavaScript/artwork rather than a macOS executable, so app code signing and Xcode are not part of this release workflow. Prior v0.1.4 remains available for rollback.
+
+## v0.2.1 layout revision — 2026-10-03
+
+The selection-count/status line is removed. Note Lock, Direction, Points and Time share baseline y=52, with the lock/direction controls directly below. The 315-pixel piano spans x=230–545 and is centered at 387.5 in the gap between the Strength control's right edge 157 and Sync's left edge 618. The range selector stays clear of the star. Actual native Max presentation was inspected with C3/E3/G3/C4 selected and Up active, and a new screenshot was captured.
+
+All 41 existing checks pass after rebuilding the portable archive. The MIDI engine is byte-for-byte unchanged from 0.2.0; the only core change is the piano's horizontal origin. Note selection, directions, timing and saved parameter identities are retained. This revision's native screenshot QA uses an isolated no-output Max presentation; the user's Untitled Live set is left in place. The v0.2.0 native scheduling/Live persistence checks above remain applicable to the unchanged behavior.

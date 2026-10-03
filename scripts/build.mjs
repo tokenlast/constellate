@@ -38,10 +38,10 @@ param('strength','live.dial',[131,115,26,26],'strength',0,100,50);
 param('points','live.dial',[632,60,26,26],'points',3,10,5);
 param('time','live.dial',[731,60,26,26],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
 param('mode','live.menu',[618,115,44,15],'clock',0,1,0,['sync','free']);
-param('direction','live.menu',[535,28,72,18],'direction',0,3,0,C.directions);
-param('noteLock','live.text',[464,28,61,18],'note lock',0,1,0,['off','on']);
+param('direction','live.menu',[535,60,72,18],'direction',0,3,0,C.directions);
+param('noteLock','live.text',[464,60,61,18],'note lock',0,1,0,['off','on']);
 const lockBox=boxes.find(b=>b.box.id==='noteLock').box;Object.assign(lockBox,{mode:1,text:'off',texton:'on',activebgcolor:[1,1,1,0],activebgoncolor:[1,1,1,0],activetextcolor:[.45,.45,.45,1],activetextoncolor:[0,0,0,1],bordercolor:[1,1,1,0]});
-param('octave','live.menu',[372,91,96,17],'keyboard range',0,10,4,menuOptions.octave);
+param('octave','live.menu',[355,91,96,17],'keyboard range',0,10,4,menuOptions.octave);
 boxes.find(b=>b.box.id==='octave').box.saved_attribute_attributes.valueof.parameter_invisible=0;
 param('timing','live.menu',[668,115,58,15],'timing',0,2,0,C.timings);
 obj('sync-only','== 0',170,640);obj('timing-active','prepend active',170,670);wire('mode',0,'sync-only');wire('sync-only',0,'timing-active');wire('timing-active',0,'timing');
@@ -49,12 +49,12 @@ obj('sync-only','== 0',170,640);obj('timing-active','prepend active',170,670);wi
 // Black keys precede white keys because Max serializes front-to-back.
 for(const pitch of Array.from({length:128},(_,i)=>i).sort((a,b)=>Number(C.pianoKey(b%12,0).black)-Number(C.pianoKey(a%12,0).black)||a-b)){
  const layout=C.pianoKey(pitch,4),id='note-'+pitch,label=C.noteName(pitch);
- box(id,'live.text',[30+(pitch%16)*45,900+Math.floor(pitch/16)*55,40,45],{presentation:1,presentation_rect:layout?layout.rect:[270,111,21,45],hidden:layout?0:1,parameter_enable:1,parameter_mappable:0,varname:id,mode:1,outputmode:0,text:label,texton:label,annotation:'Toggle '+label+' (MIDI '+pitch+') in the exact note lock set. Saved independently of the visible octave range.',hint:label+' · MIDI '+pitch,jspainterfile:'constellate-piano.js',saved_attribute_attributes:{valueof:{parameter_longname:'note '+label+' ('+pitch+')',parameter_shortname:label,parameter_type:2,parameter_enum:['off','on'],parameter_mmin:0,parameter_mmax:1,parameter_initial:[0],parameter_initial_enable:1,parameter_invisible:0}}});
+ box(id,'live.text',[30+(pitch%16)*45,900+Math.floor(pitch/16)*55,40,45],{presentation:1,presentation_rect:layout?layout.rect:[230,111,21,45],hidden:layout?0:1,parameter_enable:1,parameter_mappable:0,varname:id,mode:1,outputmode:0,text:label,texton:label,annotation:'Toggle '+label+' (MIDI '+pitch+') in the exact note lock set. Saved independently of the visible octave range.',hint:label+' · MIDI '+pitch,jspainterfile:'constellate-piano.js',saved_attribute_attributes:{valueof:{parameter_longname:'note '+label+' ('+pitch+')',parameter_shortname:label,parameter_type:2,parameter_enum:['off','on'],parameter_mmin:0,parameter_mmax:1,parameter_initial:[0],parameter_initial_enable:1,parameter_invisible:0}}});
  parameters[id]=['note '+label+' ('+pitch+')',label,0];
  obj('pre-'+id,'prepend selectnote '+pitch,30+(pitch%16)*90,1400+Math.floor(pitch/16)*30);wire(id,0,'pre-'+id);wire('pre-'+id,0,'engine');
 }
 // Clear is a native button for keyboard and accessibility users.
-box('clear-notes','live.text',[543,91,42,17],{presentation:1,presentation_rect:[543,91,42,17],parameter_enable:1,parameter_mappable:0,active:1,varname:'clear-notes',mode:1,text:'clear',texton:'clear',fontname:'Helvetica',fontsize:12,textcolor:[0,0,0,1],activebgcolor:[1,1,1,0],activebgoncolor:[1,1,1,0],activetextcolor:[0,0,0,1],activetextoncolor:[0,0,0,1],bordercolor:[1,1,1,0],annotation:'Clear every selected note, including notes outside the visible keyboard range.',saved_attribute_attributes:{valueof:{parameter_longname:'clear selected notes',parameter_shortname:'clear',parameter_type:2,parameter_enum:['release','clear'],parameter_mmin:0,parameter_mmax:1,parameter_initial:[0],parameter_initial_enable:1,parameter_invisible:0}}});
+box('clear-notes','live.text',[503,91,42,17],{presentation:1,presentation_rect:[503,91,42,17],parameter_enable:1,parameter_mappable:0,active:1,varname:'clear-notes',mode:1,text:'clear',texton:'clear',fontname:'Helvetica',fontsize:12,textcolor:[0,0,0,1],textoffcolor:[0,0,0,1],activebgcolor:[1,1,1,0],activebgoncolor:[1,1,1,0],activetextcolor:[0,0,0,1],activetextoncolor:[0,0,0,1],bordercolor:[1,1,1,0],annotation:'Clear every selected note, including notes outside the visible keyboard range.',saved_attribute_attributes:{valueof:{parameter_longname:'clear selected notes',parameter_shortname:'clear',parameter_type:2,parameter_enum:['release','clear'],parameter_mmin:0,parameter_mmax:1,parameter_initial:[0],parameter_initial_enable:1,parameter_invisible:0}}});
 parameters['clear-notes']=['clear selected notes','clear',0];
 obj('clear-pressed','sel 1',540,870);box('clear-notes-msg','message',[600,900,80,22],{text:'clearnotes'});wire('clear-notes',0,'clear-pressed');wire('clear-pressed',0,'clear-notes-msg');wire('clear-notes-msg',0,'engine');
 obj('engine','js constellate-engine.js',320,240,{numinlets:1,numoutlets:4});

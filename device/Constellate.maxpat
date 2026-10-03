@@ -864,14 +864,14 @@
           "maxclass": "live.menu",
           "patching_rect": [
             535,
-            28,
+            60,
             72,
             18
           ],
           "presentation": 1,
           "presentation_rect": [
             535,
-            28,
+            60,
             72,
             18
           ],
@@ -964,14 +964,14 @@
           "maxclass": "live.text",
           "patching_rect": [
             464,
-            28,
+            60,
             61,
             18
           ],
           "presentation": 1,
           "presentation_rect": [
             464,
-            28,
+            60,
             61,
             18
           ],
@@ -1100,14 +1100,14 @@
           "id": "octave",
           "maxclass": "live.menu",
           "patching_rect": [
-            372,
+            355,
             91,
             96,
             17
           ],
           "presentation": 1,
           "presentation_rect": [
-            372,
+            355,
             91,
             96,
             17
@@ -1340,7 +1340,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1401,7 +1401,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1462,7 +1462,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1523,7 +1523,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1584,7 +1584,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1645,7 +1645,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1706,7 +1706,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1767,7 +1767,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1828,7 +1828,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1889,7 +1889,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -1950,7 +1950,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2011,7 +2011,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2072,7 +2072,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2133,7 +2133,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2194,7 +2194,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2255,7 +2255,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2316,7 +2316,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2377,7 +2377,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2438,7 +2438,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2499,7 +2499,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -2560,7 +2560,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            284,
+            244,
             111,
             13,
             27
@@ -2621,7 +2621,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            305,
+            265,
             111,
             13,
             27
@@ -2682,7 +2682,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            347,
+            307,
             111,
             13,
             27
@@ -2743,7 +2743,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            368,
+            328,
             111,
             13,
             27
@@ -2804,7 +2804,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            389,
+            349,
             111,
             13,
             27
@@ -2865,7 +2865,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            431,
+            391,
             111,
             13,
             27
@@ -2926,7 +2926,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            452,
+            412,
             111,
             13,
             27
@@ -2987,7 +2987,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            494,
+            454,
             111,
             13,
             27
@@ -3048,7 +3048,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            515,
+            475,
             111,
             13,
             27
@@ -3109,7 +3109,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            536,
+            496,
             111,
             13,
             27
@@ -3170,7 +3170,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3231,7 +3231,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3292,7 +3292,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3353,7 +3353,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3414,7 +3414,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3475,7 +3475,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3536,7 +3536,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3597,7 +3597,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3658,7 +3658,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3719,7 +3719,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3780,7 +3780,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3841,7 +3841,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3902,7 +3902,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -3963,7 +3963,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4024,7 +4024,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4085,7 +4085,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4146,7 +4146,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4207,7 +4207,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4268,7 +4268,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4329,7 +4329,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4390,7 +4390,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4451,7 +4451,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4512,7 +4512,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4573,7 +4573,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4634,7 +4634,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4695,7 +4695,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4756,7 +4756,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4817,7 +4817,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4878,7 +4878,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -4939,7 +4939,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5000,7 +5000,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5061,7 +5061,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5122,7 +5122,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5183,7 +5183,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5244,7 +5244,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5305,7 +5305,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5366,7 +5366,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5427,7 +5427,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5488,7 +5488,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5549,7 +5549,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5610,7 +5610,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5671,7 +5671,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5732,7 +5732,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5793,7 +5793,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5854,7 +5854,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5915,7 +5915,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -5976,7 +5976,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -6037,7 +6037,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -6098,7 +6098,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -6159,7 +6159,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -6220,7 +6220,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -6281,7 +6281,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -6342,7 +6342,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            291,
+            251,
             111,
             21,
             45
@@ -6403,7 +6403,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            312,
+            272,
             111,
             21,
             45
@@ -6464,7 +6464,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            333,
+            293,
             111,
             21,
             45
@@ -6525,7 +6525,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            354,
+            314,
             111,
             21,
             45
@@ -6586,7 +6586,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            375,
+            335,
             111,
             21,
             45
@@ -6647,7 +6647,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            396,
+            356,
             111,
             21,
             45
@@ -6708,7 +6708,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            417,
+            377,
             111,
             21,
             45
@@ -6769,7 +6769,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            438,
+            398,
             111,
             21,
             45
@@ -6830,7 +6830,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            459,
+            419,
             111,
             21,
             45
@@ -6891,7 +6891,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            480,
+            440,
             111,
             21,
             45
@@ -6952,7 +6952,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            501,
+            461,
             111,
             21,
             45
@@ -7013,7 +7013,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            522,
+            482,
             111,
             21,
             45
@@ -7074,7 +7074,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            543,
+            503,
             111,
             21,
             45
@@ -7135,7 +7135,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            564,
+            524,
             111,
             21,
             45
@@ -7196,7 +7196,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7257,7 +7257,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7318,7 +7318,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7379,7 +7379,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7440,7 +7440,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7501,7 +7501,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7562,7 +7562,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7623,7 +7623,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7684,7 +7684,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7745,7 +7745,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7806,7 +7806,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7867,7 +7867,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7928,7 +7928,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -7989,7 +7989,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8050,7 +8050,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8111,7 +8111,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8172,7 +8172,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8233,7 +8233,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8294,7 +8294,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8355,7 +8355,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8416,7 +8416,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8477,7 +8477,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8538,7 +8538,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8599,7 +8599,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8660,7 +8660,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8721,7 +8721,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8782,7 +8782,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8843,7 +8843,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8904,7 +8904,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -8965,7 +8965,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -9026,7 +9026,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -9087,7 +9087,7 @@
           ],
           "presentation": 1,
           "presentation_rect": [
-            270,
+            230,
             111,
             21,
             45
@@ -9141,14 +9141,14 @@
           "id": "clear-notes",
           "maxclass": "live.text",
           "patching_rect": [
-            543,
+            503,
             91,
             42,
             17
           ],
           "presentation": 1,
           "presentation_rect": [
-            543,
+            503,
             91,
             42,
             17
@@ -9163,6 +9163,12 @@
           "fontname": "Helvetica",
           "fontsize": 12,
           "textcolor": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "textoffcolor": [
             0,
             0,
             0,

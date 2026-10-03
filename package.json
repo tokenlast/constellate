@@ -1,6 +1,6 @@
 {
   "name": "constellate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "A hand-drawn, scale-aware star arpeggiator for Max for Live.",
   "scripts": {

@@ -30,9 +30,8 @@ function paint(){
     centeredText('time',744,52,10);
     textAt('randomize',714,150,12);textAt('new star',805,150,12);
     centeredText(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],744,101,12);textAt('equal timing',619,150,12);
-    textAt('note lock',464,17,10);textAt('direction',535,17,10);
-    textAt(s.noteLock?(s.notes.length?s.notes.length+' selected':'no notes · silent'):(s.notes.length?s.notes.length+' selected · lock off':'choose exact notes'),464,71,10);
-    textAt('keyboard',270,103,10);
+    textAt('note lock',464,52,10);textAt('direction',535,52,10);
+    textAt('keyboard',230,103,10);
     // A quiet audition target, useful with no MIDI keyboard connected.
     mgraphics.move_to(236,16);mgraphics.line_to(246,22);mgraphics.line_to(236,28);mgraphics.close_path();mgraphics.fill();
     // Clock guide only appears during direct manipulation.
