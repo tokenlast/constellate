@@ -6,7 +6,7 @@ include('constellate-stars.js');
 include('constellate-sky.js');
 mgraphics.init();mgraphics.relative_coords=0;mgraphics.autofill=0;
 var s=Constellate.defaults(), shapes={}, a, grabbed=-1, markers=[], lastNote='',sky=[],skyFrame=0;
-var cx=382,cy=81,r=69;
+var cx=370,cy=57,r=43;
 for(var count=3;count<=10;count++)shapes[count]=Constellate.star(count,CHARLIE_STARS[0],Math.random);
 a=shapes[5];
 for(var frame=0;frame<SKY_FRAMES.length;frame++)sky.push(new Image(SKY_FRAMES[frame].name));
@@ -28,8 +28,11 @@ function paint(){
     centeredText('strength',144,107,10);centeredText(String(Math.round(s.strength*100)),144,156,12);
     centeredText('points',645,52,10);centeredText(String(s.points),645,101,12);
     centeredText('time',744,52,10);
-    textAt('randomize',735,127,12);textAt('new star',805,127,12);
-    centeredText(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],744,101,12);textAt('equal timing',539,127,12);
+    textAt('randomize',714,150,12);textAt('new star',805,150,12);
+    centeredText(s.mode?['125 ms','250 ms','500 ms','750 ms','1 sec','2 sec','4 sec','8 sec'][s.time]:['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars'][s.time],744,101,12);textAt('equal timing',619,150,12);
+    textAt('note lock',464,17,10);textAt('direction',535,17,10);
+    textAt(s.noteLock?(s.notes.length?s.notes.length+' selected':'no notes · silent'):(s.notes.length?s.notes.length+' selected · lock off':'choose exact notes'),464,71,10);
+    textAt('keyboard',270,103,10);
     // A quiet audition target, useful with no MIDI keyboard connected.
     mgraphics.move_to(236,16);mgraphics.line_to(246,22);mgraphics.line_to(236,28);mgraphics.close_path();mgraphics.fill();
     // Clock guide only appears during direct manipulation.
@@ -55,7 +58,7 @@ function paint(){
         var ease=t*t*(3-2*t);var x=start[0]+(endp[0]-start[0])*ease,y=start[1]+(endp[1]-start[1])*ease;
         rgba(0,1-t*.6);mgraphics.ellipse(x-4,y-4,8,8);mgraphics.fill();
     }
-    rgba(0);if(lastNote)textAt(lastNote,475,127,12);
+    rgba(0);if(lastNote)textAt(lastNote,423,55,12);
 }
 function sendShape(){outlet(0,'shape',JSON.stringify(a));mgraphics.redraw();}
 function changed(){shapes[s.points]=a;notifyclients();sendShape();}
@@ -73,9 +76,9 @@ function pulse(index,pitch,gate){
     animation.repeat();mgraphics.redraw();
 }
 function onclick(x,y){
-    if(x>=800&&x<=860&&y>=110&&y<=143){newstar();return;}
-    if(x>=728&&x<800&&y>=110&&y<=143){randomize();return;}
-    if(x>=533&&x<=612&&y>=110&&y<=143){equal();return;}
+    if(x>=797&&x<=860&&y>=135&&y<=164){newstar();return;}
+    if(x>=706&&x<797&&y>=135&&y<=164){randomize();return;}
+    if(x>=613&&x<706&&y>=135&&y<=164){equal();return;}
     if(x>=228&&x<=255&&y<=38){outlet(0,'audition');return;}
     grabbed=-1;var best=144;
     for(var i=0;i<a.length;i++){var p=point(i),d=Math.pow(p[0]-x,2)+Math.pow(p[1]-y,2);if(d<best){best=d;grabbed=i;}}

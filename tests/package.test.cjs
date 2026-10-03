@@ -21,3 +21,11 @@ test('the standalone release embeds the current patch and every dependency byte-
  assert.ok(!b.includes(Buffer.from('midi-capture.jsonl')));
  assert.ok(!b.includes(Buffer.from('/Users/')));
 });
+test('exact piano toggles have native accessibility identities and visible saved state with unchanged scheduler wiring',()=>{
+ const p=JSON.parse(fs.readFileSync(path.join(root,'device/Constellate.maxpat'))).patcher;
+ const keys=p.boxes.map(x=>x.box).filter(b=>/^note-\d+$/.test(b.id));assert.equal(keys.length,128);
+ const names=new Set();for(const k of keys){assert.equal(k.maxclass,'live.text');assert.equal(k.mode,1);assert.equal(k.parameter_enable,1);assert.equal(k.saved_attribute_attributes.valueof.parameter_invisible,0);assert.ok(k.annotation.includes('MIDI '));names.add(k.saved_attribute_attributes.valueof.parameter_longname);}
+ assert.equal(names.size,128);assert.ok(p.boxes.some(x=>x.box.id==='clear-notes'&&x.box.maxclass==='live.text'&&x.box.saved_attribute_attributes.valueof.parameter_invisible===0));assert.ok(p.boxes.some(x=>x.box.id==='clear-pressed'&&x.box.text==='sel 1'));
+ assert.ok(p.boxes.some(x=>x.box.text==='pipe 0 0 0 0. 0 0'));assert.ok(p.lines.some(x=>x.patchline.source[0]==='clear'&&x.patchline.destination[0]==='queue'));
+ for(const {box:b} of p.boxes.filter(x=>/^p channel-/.test(x.box.text)))assert.ok(b.patcher.boxes.some(x=>x.box.text==='makenote 100 100 @repeatmode 1'));
+});

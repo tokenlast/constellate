@@ -15,6 +15,7 @@ var Constellate = (function () {
         ['blues', [0,3,5,6,7,10]], ['chromatic', [0,1,2,3,4,5,6,7,8,9,10,11]]
     ];
     var flavors = ['major', 'minor', 'consonant', 'dissonant'];
+    var directions = ['random','up','down','up/down'];
     var timings = ['straight', 'triplet', 'dotted'];
     var timingFactors = [1,2/3,1.5];
     var bars = [0.0625,0.125,0.25,0.5,1,2,4,8];
@@ -28,8 +29,43 @@ var Constellate = (function () {
     function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
     function mod(v,n){return ((v%n)+n)%n;}
     function round(v,lo,hi){return clamp(Math.round(Number(v)||0),lo,hi);}
-    function defaults(){return {points:5,key:0,scale:2,flavor:2,strength:0.5,time:4,mode:0,timing:0};}
-    function validSettings(s){var d=defaults();for(var k in d)if(typeof s[k]==='number'&&isFinite(s[k]))d[k]=s[k];d.points=round(d.points,3,10);d.key=round(d.key,0,11);d.scale=round(d.scale,0,scales.length-1);d.flavor=round(d.flavor,0,3);d.strength=clamp(d.strength,0,1);d.time=round(d.time,0,7);d.mode=round(d.mode,0,1);d.timing=round(d.timing,0,2);return d;}
+    function defaults(){return {points:5,key:0,scale:2,flavor:2,strength:0.5,time:4,mode:0,timing:0,direction:0,noteLock:0,octave:4,notes:[]};}
+    function validSettings(s){var d=defaults();for(var k in d)if(typeof s[k]==='number'&&isFinite(s[k]))d[k]=s[k];d.points=round(d.points,3,10);d.key=round(d.key,0,11);d.scale=round(d.scale,0,scales.length-1);d.flavor=round(d.flavor,0,3);d.strength=clamp(d.strength,0,1);d.time=round(d.time,0,7);d.mode=round(d.mode,0,1);d.timing=round(d.timing,0,2);d.direction=round(d.direction,0,3);d.noteLock=round(d.noteLock,0,1);d.octave=round(d.octave,0,10);d.notes=validNotes(s.notes);return d;}
+    function validNotes(notes){
+        var out=[];if(!notes||!Array.isArray(notes))return out;
+        for(var i=0;i<notes.length;i++)if(typeof notes[i]==='number'&&isFinite(notes[i])&&notes[i]===Math.floor(notes[i])&&notes[i]>=0&&notes[i]<=127&&out.indexOf(notes[i])<0)out.push(notes[i]);
+        return out.sort(function(a,b){return a-b;});
+    }
+    function noteName(p){return ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'][mod(p,12)]+(Math.floor(p/12)-2);}
+    function pianoKey(p,octave){
+        var start=round(octave,0,10)*12,offset=p-start;
+        if(offset<0||offset>24||p>127)return null;
+        var pc=mod(offset,12),black=[1,3,6,8,10].indexOf(pc)>=0;
+        var whites=[0,0,1,1,2,3,3,4,4,5,5,6],col=Math.floor(offset/12)*7+whites[pc];
+        return {black:black,rect:[270+col*21+(black?14:0),111,black?13:21,black?27:45]};
+    }
+    function eligible(root,s){
+        if(s.noteLock)return s.notes.slice();
+        var pitches=[],lo=clamp(root,0,103),hi=Math.min(127,lo+24);
+        for(var p=lo;p<=hi;p++)if(inScale(p,s))pitches.push(p);
+        return pitches;
+    }
+    // Weighted shuffle without replacement. Injected RNG keeps tests reproducible.
+    function shuffled(pitches,root,s,rng,last){
+        var remaining=pitches.slice(),out=[];
+        while(remaining.length){
+            var ws=[],total=0;
+            for(var i=0;i<remaining.length;i++){
+                var w=(1-s.strength)+s.strength*weights[s.flavor][mod(remaining[i]-root,12)];
+                if(!out.length&&remaining.length>1&&remaining[i]===last)w=0;
+                ws.push(w);total+=w;
+            }
+            var roll=clamp(Number(rng())||0,0,.999999999999)*total,index=remaining.length-1;
+            for(var j=0;j<ws.length;j++){roll-=ws[j];if(roll<0){index=j;break;}}
+            out.push(remaining.splice(index,1)[0]);
+        }
+        return out;
+    }
     function contains(a,n){return a.indexOf(n)!==-1;}
     function inScale(p,s){return contains(scales[s.scale][1],mod(p-s.key,12));}
     function quantize(p,s){p=round(p,0,127);for(var d=0;d<=12;d++){if(p-d>=0&&inScale(p-d,s))return p-d;if(p+d<=127&&inScale(p+d,s))return p+d;}return p;}
@@ -80,13 +116,23 @@ var Constellate = (function () {
     function duration(s,tempo,num,den){return s.mode?times[s.time]:60000/clamp(tempo||120,20,999)*((num||4)*4/(den||4))*bars[s.time]*timingFactors[round(s.timing,0,2)];}
     function sequence(pitch,velocity,channel,s,a,tempo,num,den,rng){
         s=validSettings(s);var root=quantize(pitch,s),last=root,out=[],ms=duration(s,tempo,num,den);
+        var pitches=eligible(root,s),deck=[],cursor=0;
+        if(!pitches.length)return {events:out,duration:ms};
+        var ordered=pitches.slice();
+        if(s.direction===2)ordered.reverse();
+        if(s.direction===3&&pitches.length>1)ordered=ordered.concat(pitches.slice(1,-1).reverse());
         for(var i=0;i<a.length;i++){
-            var next=i===0?root:choose(root,last,s,rng);
+            var next;
+            if(s.direction)next=ordered[i%ordered.length];
+            else if(s.noteLock){
+                if(cursor>=deck.length){deck=shuffled(pitches,root,s,rng,i?last:-1);cursor=0;}
+                next=deck[cursor++];
+            }else next=i===0?root:choose(root,last,s,rng);
             var gap=(i===a.length-1?1:a[i+1].phase)-a[i].phase;
             out.push({pitch:next,velocity:round(velocity,1,127),channel:round(channel,1,16),point:i,delay:a[i].phase*ms,gate:clamp(gap*ms*.72,25,1500)});last=next;
         }
         return {events:out,duration:ms};
     }
-    return {scales:scales,flavors:flavors,timings:timings,bars:bars,times:times,defaults:defaults,validSettings:validSettings,inScale:inScale,quantize:quantize,choose:choose,star:star,sanitizeStar:sanitizeStar,movePoint:movePoint,randomize:randomize,equal:equal,duration:duration,sequence:sequence,clamp:clamp};
+    return {directions:directions,validNotes:validNotes,noteName:noteName,pianoKey:pianoKey,eligible:eligible,shuffled:shuffled,scales:scales,flavors:flavors,timings:timings,bars:bars,times:times,defaults:defaults,validSettings:validSettings,inScale:inScale,quantize:quantize,choose:choose,star:star,sanitizeStar:sanitizeStar,movePoint:movePoint,randomize:randomize,equal:equal,duration:duration,sequence:sequence,clamp:clamp};
 }());
 if(typeof module!=='undefined')module.exports=Constellate;

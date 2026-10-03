@@ -9,10 +9,10 @@ test('new star resets timing and equal timing preserves drawing radii',()=>{cons
 test('malformed saved state cannot replace valid shape data',()=>{const {c}=ui();const saved=c.getvalueof();c.setvalueof('{"5":[1,2,3]}');assert.equal(c.getvalueof(),saved);c.setvalueof('bad');assert.equal(c.getvalueof(),saved);});
 test('canvas actions and point dragging change geometry and emit messages',()=>{
  const {c,events}=ui();c.onclick(240,22);assert.ok(events.some(e=>e[1]==='audition'));
- const before=JSON.stringify(c.a);c.onclick(760,124);assert.notEqual(JSON.stringify(c.a),before);
- c.onclick(560,124);c.a.forEach((p,i)=>assert.equal(p.phase,i/5));
+ const before=JSON.stringify(c.a);c.onclick(760,148);assert.notEqual(JSON.stringify(c.a),before);
+ c.onclick(650,148);c.a.forEach((p,i)=>assert.equal(p.phase,i/5));
  const point=c.point(1);c.onclick(point[0],point[1]);c.ondrag(c.cx+40,c.cy+20,1);c.ondrag(c.cx+40,c.cy+20,0);assert.notEqual(c.a[1].phase,.2);assert.ok(events.some(e=>e[1]==='shape'));
- c.onclick(830,124);c.a.forEach((p,i)=>assert.equal(p.phase,i/5));assert.equal(events[events.length-1][1],'shape');assert.ok(!events.some(e=>e[1]==='panic'));
+ c.onclick(830,148);c.a.forEach((p,i)=>assert.equal(p.phase,i/5));assert.equal(events[events.length-1][1],'shape');assert.ok(!events.some(e=>e[1]==='panic'));
 });
 test('dropdown painter draws selected text at the left edge and an adjacent arrow',()=>{
  const source=fs.readFileSync(path.join(__dirname,'../device/constellate-dropdown.js'),'utf8');

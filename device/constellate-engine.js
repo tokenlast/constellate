@@ -12,8 +12,38 @@ function config(name,value){
     if(!(name in settings))return;
     var next={};for(var k in settings)next[k]=settings[k];
     next[name]=name==='strength'?Number(value)/100:Number(value);
-    settings=Constellate.validSettings(next);
+    var valid=Constellate.validSettings(next);
+    if((name==='direction'||name==='noteLock')&&valid[name]!==settings[name])panic();
+    settings=valid;
+    if(name==='octave')keyboard();
     if(geometry.length!==settings.points)geometry=Constellate.star(settings.points,CHARLIE_STARS[0],Math.random);
+    outlet(2,'settings',JSON.stringify(settings));
+}
+function keyboard(){
+    if(typeof patcher==='undefined')return;
+    // Visibility changes do not change any note's identity or saved parameter.
+    for(var p=0;p<128;p++){
+        var key=patcher.getnamed('note-'+p),layout=Constellate.pianoKey(p,settings.octave);
+        if(!key)continue;
+        key.message('sendbox','hidden',layout?0:1);
+        if(layout)key.message('sendbox','presentation_rect',layout.rect[0],layout.rect[1],layout.rect[2],layout.rect[3]);
+    }
+}
+function selectnote(pitch,value){
+    pitch=Number(pitch);if(!isFinite(pitch)||pitch!==Math.floor(pitch)||pitch<0||pitch>127)return;
+    var notes=settings.notes.slice(),index=notes.indexOf(pitch),on=Number(value)>0;
+    if(on===(index>=0))return;
+    if(on)notes.push(pitch);else notes.splice(index,1);
+    if(settings.noteLock)panic();
+    settings.notes=Constellate.validNotes(notes);
+    outlet(2,'settings',JSON.stringify(settings));
+}
+function clearnotes(){
+    if(typeof patcher!=='undefined'){var clear=patcher.getnamed('clear-notes');if(clear)clear.message('set',0);}
+    if(!settings.notes.length)return;
+    if(settings.noteLock)panic();
+    settings.notes=[];
+    if(typeof patcher!=='undefined')for(var p=0;p<128;p++){var key=patcher.getnamed('note-'+p);if(key)key.message('set',0);}
     outlet(2,'settings',JSON.stringify(settings));
 }
 function shape(json){try{var a=Constellate.sanitizeStar(JSON.parse(json),settings.points);if(a)geometry=a;}catch(e){}}
@@ -22,6 +52,7 @@ function trigger(pitch,velocity,channel){
     var now=Date.now();ends=ends.filter(function(t){return t>now;});
     if(ends.length>=64)return; // bounded polyphony, never steal an existing tail
     var seq=Constellate.sequence(pitch,velocity,channel||1,settings,geometry,tempoValue,numerator,denominator,Math.random);
+    if(!seq.events.length)return;
     ends.push(now+seq.duration+1500);
     for(var i=0;i<seq.events.length;i++){
         var e=seq.events[i];outlet(0,[e.channel,e.pitch,e.velocity,e.gate,e.point,e.delay]);
@@ -70,6 +101,7 @@ function ready(){
         }catch(e){post('Constellate: host clock unavailable outside Live. Using 120 BPM.\n');}
     }
     outlet(2,'settings',JSON.stringify(settings));
+    keyboard();
     outlet(2,'bang');
 }
 function notifydeleted(){panic();for(var i=0;i<songObservers.length;i++)songObservers[i].property='';}

@@ -4,7 +4,7 @@ import vm from 'node:vm';
 const root=path.resolve(import.meta.dirname,'..'),device=path.join(root,'device');
 const coreContext={};vm.createContext(coreContext);vm.runInContext(fs.readFileSync(path.join(device,'constellate-core.js'),'utf8'),coreContext);
 const C=coreContext.Constellate;
-const menuOptions={key:['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'],scale:C.scales.map(s=>s[0]),flavor:C.flavors,mode:['sync','free'],timing:C.timings};
+const menuOptions={key:['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'],scale:C.scales.map(s=>s[0]),flavor:C.flavors,mode:['sync','free'],timing:C.timings,direction:C.directions,octave:Array.from({length:11},(_,i)=>C.noteName(i*12)+'–'+C.noteName(Math.min(127,i*12+24)))};
 fs.writeFileSync(path.join(device,'constellate-dropdown.js'),fs.readFileSync(path.join(root,'scripts/menu-painter.js'),'utf8').replace('__MENU_OPTIONS__',JSON.stringify(menuOptions)));
 const traces=JSON.parse(fs.readFileSync(path.join(root,'assets/charlie-stars.json')));
 fs.writeFileSync(path.join(device,'constellate-stars.js'),'// Charlie Yates: original website star traces.\nvar CHARLIE_STARS = '+JSON.stringify(traces)+';\n');
@@ -38,8 +38,25 @@ param('strength','live.dial',[131,115,26,26],'strength',0,100,50);
 param('points','live.dial',[632,60,26,26],'points',3,10,5);
 param('time','live.dial',[731,60,26,26],'time',0,7,4,['1/16 bar','1/8 bar','1/4 bar','1/2 bar','1 bar','2 bars','4 bars','8 bars']);
 param('mode','live.menu',[618,115,44,15],'clock',0,1,0,['sync','free']);
+param('direction','live.menu',[535,28,72,18],'direction',0,3,0,C.directions);
+param('noteLock','live.text',[464,28,61,18],'note lock',0,1,0,['off','on']);
+const lockBox=boxes.find(b=>b.box.id==='noteLock').box;Object.assign(lockBox,{mode:1,text:'off',texton:'on',activebgcolor:[1,1,1,0],activebgoncolor:[1,1,1,0],activetextcolor:[.45,.45,.45,1],activetextoncolor:[0,0,0,1],bordercolor:[1,1,1,0]});
+param('octave','live.menu',[372,91,96,17],'keyboard range',0,10,4,menuOptions.octave);
+boxes.find(b=>b.box.id==='octave').box.saved_attribute_attributes.valueof.parameter_invisible=0;
 param('timing','live.menu',[668,115,58,15],'timing',0,2,0,C.timings);
 obj('sync-only','== 0',170,640);obj('timing-active','prepend active',170,670);wire('mode',0,'sync-only');wire('sync-only',0,'timing-active');wire('timing-active',0,'timing');
+// Exact MIDI identities remain native, accessible, saved toggle parameters.
+// Black keys precede white keys because Max serializes front-to-back.
+for(const pitch of Array.from({length:128},(_,i)=>i).sort((a,b)=>Number(C.pianoKey(b%12,0).black)-Number(C.pianoKey(a%12,0).black)||a-b)){
+ const layout=C.pianoKey(pitch,4),id='note-'+pitch,label=C.noteName(pitch);
+ box(id,'live.text',[30+(pitch%16)*45,900+Math.floor(pitch/16)*55,40,45],{presentation:1,presentation_rect:layout?layout.rect:[270,111,21,45],hidden:layout?0:1,parameter_enable:1,parameter_mappable:0,varname:id,mode:1,outputmode:0,text:label,texton:label,annotation:'Toggle '+label+' (MIDI '+pitch+') in the exact note lock set. Saved independently of the visible octave range.',hint:label+' · MIDI '+pitch,jspainterfile:'constellate-piano.js',saved_attribute_attributes:{valueof:{parameter_longname:'note '+label+' ('+pitch+')',parameter_shortname:label,parameter_type:2,parameter_enum:['off','on'],parameter_mmin:0,parameter_mmax:1,parameter_initial:[0],parameter_initial_enable:1,parameter_invisible:0}}});
+ parameters[id]=['note '+label+' ('+pitch+')',label,0];
+ obj('pre-'+id,'prepend selectnote '+pitch,30+(pitch%16)*90,1400+Math.floor(pitch/16)*30);wire(id,0,'pre-'+id);wire('pre-'+id,0,'engine');
+}
+// Clear is a native button for keyboard and accessibility users.
+box('clear-notes','live.text',[543,91,42,17],{presentation:1,presentation_rect:[543,91,42,17],parameter_enable:1,parameter_mappable:0,active:1,varname:'clear-notes',mode:1,text:'clear',texton:'clear',fontname:'Helvetica',fontsize:12,textcolor:[0,0,0,1],activebgcolor:[1,1,1,0],activebgoncolor:[1,1,1,0],activetextcolor:[0,0,0,1],activetextoncolor:[0,0,0,1],bordercolor:[1,1,1,0],annotation:'Clear every selected note, including notes outside the visible keyboard range.',saved_attribute_attributes:{valueof:{parameter_longname:'clear selected notes',parameter_shortname:'clear',parameter_type:2,parameter_enum:['release','clear'],parameter_mmin:0,parameter_mmax:1,parameter_initial:[0],parameter_initial_enable:1,parameter_invisible:0}}});
+parameters['clear-notes']=['clear selected notes','clear',0];
+obj('clear-pressed','sel 1',540,870);box('clear-notes-msg','message',[600,900,80,22],{text:'clearnotes'});wire('clear-notes',0,'clear-pressed');wire('clear-pressed',0,'clear-notes-msg');wire('clear-notes-msg',0,'engine');
 obj('engine','js constellate-engine.js',320,240,{numinlets:1,numoutlets:4});
 obj('midiin','midiin',30,210);wire('midiin',0,'engine');obj('midiout','midiout',950,610);wire('engine',1,'midiout');wire('engine',2,'surface');wire('surface',0,'engine');
 obj('thisdevice','live.thisdevice',580,210);obj('ready','deferlow',580,240);obj('readymsg','prepend ready',580,270);wire('thisdevice',0,'ready');wire('ready',0,'readymsg');wire('readymsg',0,'engine');obj('active','prepend active',740,240);wire('thisdevice',1,'active');wire('active',0,'engine');
@@ -69,7 +86,7 @@ for(let ch=1;ch<=16;ch++){
 // Max serializes boxes front-to-back. Keep the interactive canvas behind controls
 // without placing it on the background layer, which gets mouse-locked by Freeze.
 boxes.push(boxes.shift());
-const p=patch(boxes,lines,{devicewidth:860,bgcolor:[1,1,1,1],editing_bgcolor:[.95,.95,.95,1],description:'Constellate — one note, one hand-drawn constellation.',digest:'A scale-aware star arpeggiator.',tags:'MIDI arpeggiator star scale',parameters:{...parameters,parameterbanks:{0:{index:0,name:'Constellate',parameters:['key','scale','flavor','strength','points','time','clock','timing']}},inherited_shortname:1},dependency_cache:['constellate-core.js','constellate-stars.js','constellate-engine.js','constellate-view.js','constellate-dropdown.js','constellate-sky.js','sky.gif',...skyFrames.map(f=>f.name)].map(name=>({name,bootpath:'.',type:name.endsWith('.js')?'TEXT':name.endsWith('.png')?'PNG':'GIFf',implicit:1}))});
+const p=patch(boxes,lines,{devicewidth:860,bgcolor:[1,1,1,1],editing_bgcolor:[.95,.95,.95,1],description:'Constellate — one note, one hand-drawn constellation.',digest:'A scale-aware star arpeggiator.',tags:'MIDI arpeggiator star scale',parameters:{...parameters,parameterbanks:{0:{index:0,name:'Constellate',parameters:['key','scale','flavor','strength','points','time','clock','timing']},1:{index:1,name:'Note lock',parameters:['noteLock','direction','octave','-','-','-','-','-']}},inherited_shortname:1},dependency_cache:['constellate-core.js','constellate-stars.js','constellate-engine.js','constellate-view.js','constellate-dropdown.js','constellate-sky.js','constellate-piano.js','sky.gif',...skyFrames.map(f=>f.name)].map(name=>({name,bootpath:'.',type:name.endsWith('.js')?'TEXT':name.endsWith('.png')?'PNG':'GIFf',implicit:1}))});
 const json=JSON.stringify({patcher:p},null,2)+'\n';
 fs.writeFileSync(path.join(device,'Constellate.maxpat'),json);
 // AMXD container: ampf type, metadata, UTF-8 patch chunk including its terminating NUL.

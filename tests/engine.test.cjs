@@ -16,3 +16,39 @@ test('timing menu config reaches scheduling and affects only new synced passes',
  assert.ok(Math.abs(r.scheduled()[4][1][5]-2000*2/3*.8)<1e-7);
  r.c.config('mode',1);r.bytes([144,67,100]);assert.equal(r.scheduled()[14][1][5],800);
 });
+test('note lock selection clears tails only when effective output changes',()=>{
+ const r=runtime();r.c.selectnote(61,1);r.c.selectnote(73,1);assert.equal(r.outputs.filter(o=>o[0]===3).length,0);
+ r.c.config('noteLock',1);r.c.config('direction',1);r.c.trigger(60,99,12);
+ assert.deepEqual(r.scheduled().slice(-5).map(o=>o[1][1]),[61,73,61,73,61]);
+ const before=r.outputs.filter(o=>o[0]===3).length;r.c.selectnote(73,0);
+ assert.equal(r.outputs.filter(o=>o[0]===3).length,before+1);assert.equal(r.c.ends.length,0);
+ r.c.trigger(60,99,12);assert.deepEqual(r.scheduled().slice(-5).map(o=>o[1][1]),Array(5).fill(61));
+ r.c.selectnote(61,0);const count=r.scheduled().length;for(let i=0;i<100;i++)r.c.trigger(60,99,1);
+ assert.equal(r.scheduled().length,count);assert.equal(r.c.ends.length,0);
+});
+test('unchanged settings, octave navigation and malformed notes do not interrupt playing tails',()=>{
+ const r=runtime();r.c.selectnote(61,1);r.c.config('noteLock',1);r.c.trigger(60,99,1);
+ const count=r.outputs.filter(o=>o[0]===3).length;
+ r.c.selectnote(61,1);r.c.selectnote(-1,1);r.c.selectnote(128,1);r.c.selectnote('bad',1);r.c.selectnote(60.5,1);r.c.config('noteLock',1);r.c.config('direction',0);r.c.config('octave',6);
+ assert.equal(r.outputs.filter(o=>o[0]===3).length,count);assert.equal(r.c.ends.length,1);
+});
+test('locked transport/bypass cleanup and tempo updates preserve queued timing snapshots',()=>{
+ const r=runtime();r.c.selectnote(60,1);r.c.selectnote(127,1);r.c.config('noteLock',1);r.c.host('tempo',120);r.c.trigger(64,100,2);
+ const first=JSON.stringify(r.scheduled());r.c.host('tempo',60);r.c.trigger(64,100,2);
+ assert.equal(JSON.stringify(r.scheduled().slice(0,5)),first);assert.equal(r.scheduled()[4][1][5],1600);assert.equal(r.scheduled()[9][1][5],3200);
+ r.c.host('is_playing',1);r.c.host('is_playing',0);assert.equal(r.c.ends.length,0);r.c.active(0);const count=r.scheduled().length;r.c.trigger(60,100,1);assert.equal(r.scheduled().length,count);
+ r.c.active(1);r.c.trigger(60,100,1);assert.equal(r.scheduled().length,count+5);
+});
+test('native saved note parameters restore independently of lock, direction and octave order; clear updates all toggles',()=>{
+ for(const order of [0,1]){
+  const r=runtime();const boxes=Array.from({length:128},(_,pitch)=>({value:0,messages:[],message(...args){this.messages.push(args);if(args[0]==='set')this.value=args[1];}}));
+  r.c.patcher={getnamed(name){return boxes[Number(name.split('-')[1])];}};
+  const params=()=>{r.c.config('noteLock',1);r.c.config('direction',2);r.c.config('octave',10);};
+  const notes=()=>{r.c.selectnote(0,1);r.c.selectnote(73,1);r.c.selectnote(127,1);};
+  if(order){params();notes();}else{notes();params();}
+  r.c.trigger(60,99,1);assert.deepEqual(r.scheduled().map(o=>o[1][1]),[127,73,0,127,73]);
+  assert.deepEqual(boxes[127].messages.find(m=>m[1]==='presentation_rect'),['sendbox','presentation_rect',354,111,21,45]);
+  assert.ok(boxes[0].messages.some(m=>m[1]==='hidden'&&m[2]===1));
+  r.c.clearnotes();assert.equal(r.c.settings.notes.length,0);assert.ok(boxes.every(b=>b.messages.some(m=>m[0]==='set'&&m[1]===0)));
+ }
+});

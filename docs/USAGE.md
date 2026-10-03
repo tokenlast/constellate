@@ -16,8 +16,10 @@ For a source checkout, keep every file in `device/` together and load `device/Co
 
 - **points:** 3–10. Three is a triangle; five is the default. One note per point, including the first note immediately.
 - **key / scale:** choose a root and one of 22 scales. The played note is snapped to the closest note in the scale when needed; ties go downward.
-- **flavor:** major, minor, consonant, or dissonant. These bias intervals relative to the note you played. They never introduce a note outside the selected scale.
-- **strength:** at zero, every available scale pitch is equally likely. Turn it up for more of the chosen flavor. Adjacent notes never repeat the same MIDI pitch.
+- **flavor:** major, minor, consonant, or dissonant. These bias intervals relative to the note you played. With note lock off, they never introduce a note outside the selected scale.
+- **note lock:** turn it on to use only the exact piano keys you selected. Octaves are separate pitches, so C3 and C4 are independent. The range menu pages across MIDI 0–127; selected keys stay selected when they are off-screen. Dots and bottom stripes mark selected keys. **clear** clears the entire set. Lock with no keys is silent; with one key, each star point repeats that key. The input note still triggers a full pass and retains its velocity/channel, but does not add an unselected pitch. Locked notes override key/scale; flavor and strength bias the random shuffle order.
+- **direction:** **up** cycles from the lowest eligible pitch to the highest, **down** from highest to lowest, and **up/down** bounces without repeating either endpoint. Each trigger begins a fresh pass, with one event per star point; if there are more eligible notes than points, the pass ends before completing the order. Within each pass, **random** draws from the locked set without replacement and reshuffles after exhausting it; cycle boundaries avoid adjacent repeats when at least two keys are selected. With lock off, Random keeps the original weighted random behavior, including the played scale degree as the first note. Unlocked directional modes use the original two-octave scale range.
+- **strength:** at zero, every available pitch is equally likely in Random. Turn it up for more of the chosen flavor. Random avoids adjacent repeats when at least two pitches are eligible; a one-key lock deliberately repeats that key.
 - **time / clock:** sync runs from 1/16 of a bar to 8 bars, using Live's tempo and time signature. Free runs from 125 ms to 8 seconds. Each press captures the current timing, so changing tempo or controls affects new passes.
 - **timing:** beside sync, choose straight, triplet (two-thirds of the selected duration), or dotted (one-and-a-half times the duration). This scales the entire star's rhythm. Free mode keeps its displayed duration and disables this menu.
 - **drag a corner:** move clockwise or counterclockwise to change when it plays; move inward or outward to change the drawing. Corners keep their order. The first point anchors time zero.
@@ -26,17 +28,17 @@ For a source checkout, keep every file in `device/` together and load `device/Co
 - **equal timing:** evenly space the rhythm while preserving the point lengths.
 - **small play triangle:** audition the current key without a keyboard.
 
-The final division returns to the first point at the end of the selected time, without adding an extra note or looping. Note lengths follow the next gap, with a short separation. Incoming velocity and MIDI channel are retained. Up to 64 passes can be in flight; further triggers are ignored until a slot clears. Repeated pitches retrigger cleanly on each channel. Stopping Live's transport or bypassing the device clears active notes and queued tails.
+The final division returns to the first point at the end of the selected time, without adding an extra note or looping. Note lengths follow the next gap, with a short separation. Incoming velocity and MIDI channel are retained. Up to 64 passes can be in flight; further triggers are ignored until a slot clears. Repeated pitches retrigger cleanly on each channel. Stopping Live's transport or bypassing the device clears active notes and queued tails. Changing direction, toggling lock, editing the active locked set, or clearing it also releases notes and cancels queued tails immediately. Octave navigation leaves playing passes alone. Clock, tempo and timing changes continue to apply to new passes.
 
 The scale list includes major/minor pentatonic, the seven diatonic modes, harmonic and melodic minor, whole tone, both diminished scales, hirajoshi, in sen, Hungarian minor, double harmonic, enigmatic, Prometheus, blues, and chromatic.
 
-Major/minor flavors are interval preferences, not forced chord changes: E in C major can favor the available notes of E minor. Dissonant in a pentatonic scale is limited to the tensions available in that scale. Use chromatic for all twelve pitches.
+Major/minor flavors are interval preferences, not forced chord changes: E in C major can favor the available notes of E minor. With note lock off, dissonant in a pentatonic scale is limited to the tensions available in that scale. Use chromatic for all twelve pitches.
 
 ## Source
 
 - `device/constellate-core.js`: scale selection, weighted note choice, geometry, and timing calculations.
 - `device/constellate-engine.js`: MIDI parsing, host tempo observation, and scheduling messages.
-- `device/constellate-view.js`: the native Max `jsui` interface and stored star geometry.
+- `device/constellate-view.js`: the native Max `jsui` interface and stored star geometry. Piano keys are native `live.text` toggles, with an individual accessible, automatable, saved parameter and MIDI pitch label per key; the range menu never changes parameter identity. `constellate-piano.js` paints the key surfaces while native controls retain interaction and focus handling.
 - `scripts/build.mjs`: generates the editable patch and unfrozen MIDI-effect `.amxd` container.
 - `scripts/freeze.mjs`: bundles the patch, scripts, and artwork into one portable `.amxd`.
 
